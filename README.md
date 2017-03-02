@@ -4,6 +4,13 @@ This project deals with an implementation of the basic functionality of the Modb
 It's a copy of the releases from the project page over at [Google Code](https://code.google.com/p/phpmodbus/) with
 composer support added.
 
+Changes by @Manawyrm
+-------
+The upstream library had trouble reading data from SMA solar inverters via modbus. 
+This was fixed by explicitly reading the length-field of the transmitted data and then waiting for the specified amount of data.
+
+Warning! This library was _NOT_ tested with a UDP modbus server and could behave wrong!
+
 Features
 --------
 
