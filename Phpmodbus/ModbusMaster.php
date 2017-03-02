@@ -156,11 +156,26 @@ class ModbusMaster {
             0, 
             300000) !== FALSE) {
             $this->status .= "Wait data ... \n";
-        if (in_array($this->sock, $readsocks)) {
-            while (@socket_recv($this->sock, $rec, 2000, 0)) {
-                $this->status .= "Data received\n";
-                return $rec;
+
+        if (in_array($this->sock, $readsocks))
+        {
+            $data = "";
+            $packetLength = 0;
+            while (($packetLength == 0) || ($packetLength > strlen($data)))
+            {
+              @socket_recv($this->sock, $rec, 2, 0);
+              if (@$data[5] != "")
+              {
+                // Modbus Header incl. length field is 6 bytes long.
+                $lengthArray = unpack("C", $data[5]);
+                $packetLength = 6 + $lengthArray[1];
+              }
+              $data .= $rec;
             }
+            
+            $this->status .= "Data received\n";
+            return $data;
+
             $lastAccess = time();
         } else {             
             if (time()-$lastAccess >= $this->timeout_sec) {
