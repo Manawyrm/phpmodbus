@@ -233,15 +233,15 @@ class PhpType {
         $value = 0;
         // Combine bytes
         if ($endianness == 0)
-            $value = (($data[3] & 0xFF)<<16) |
-                    (($data[2] & 0xFF)<<24) |
-                    (($data[1] & 0xFF)) |
-                    (($data[0] & 0xFF)<<8);
+            $value = (($data[0] & 0xFF)<<16) |
+                    (($data[1] & 0xFF)<<24) |
+                    (($data[2] & 0xFF)) |
+                    (($data[3] & 0xFF)<<8);
         else
-            $value = (($data[3] & 0xFF)<<24) |
-                    (($data[2] & 0xFF)<<16) |
-                    (($data[1] & 0xFF)<<8) |
-                    (($data[0] & 0xFF));
+            $value = (($data[0] & 0xFF)<<24) |
+                    (($data[1] & 0xFF)<<16) |
+                    (($data[2] & 0xFF)<<8) |
+                    (($data[3] & 0xFF));
 
         return $value;
     }
